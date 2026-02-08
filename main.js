@@ -1,7 +1,7 @@
 import * as maze from "./maze-Generator.js";
 export const start = {x: 0, y: 0};
-export let checking, open = [], closed = [];
-let finished = false, target, k = true;
+export let checking, open = [], closed = [], path = [];
+let finished = false, target, k = true, win = false;
 
 const game = p => {
     p.setup = () => {
@@ -10,9 +10,11 @@ const game = p => {
 
     p.draw = () => {
         maze.draw(p);
-        if(finished && open.length != 0 && k === true) {
-            p.frameRate(5);
+        if(finished && open.length != 0 && k === true && !win) {
+            // p.frameRate(5);
             loop();
+        } else if(win) {
+            getPath(target);
         }
     }
 
@@ -36,14 +38,14 @@ function loop() {
     closed.push(open.splice(open.indexOf(checking), 1)[0]);
     if(checking === target) {
         console.log(checking, target);
-        k = false;
+        win = true;
         setTimeout(() => alert("path found"), 200);
         return true;
     }
 
     const neighbours = (() => {
         let a = [];
-        const i = checking.x / maze.s, j = checking.y / maze.s;
+        const i = Math.floor(checking.x / maze.s), j = Math.floor(checking.y / maze.s);
         if(!checking.walls[0] && closed.indexOf(maze.grid[i][ - 1]) === -1) a.push(maze.grid[i][j - 1]);
         if(!checking.walls[1] && closed.indexOf(maze.grid[i + 1][j]) === -1) a.push(maze.grid[i + 1][j]);
         if(!checking.walls[2] && closed.indexOf(maze.grid[i][j + 1]) === -1) a.push(maze.grid[i][j + 1]);
@@ -72,6 +74,11 @@ function setF(cell, prev, first = false) {
     cell.g = prev.g + 1;
     cell.h = (target.x - cell.x + target.y - cell.y) / maze.s;
     cell.f = cell.g + cell.h;
+}
+
+function getPath(e) {
+    path.push(e);
+    if(e.previous) getPath(e.previous);
 }
 
 const instance = new p5(game);

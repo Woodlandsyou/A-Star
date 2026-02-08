@@ -1,5 +1,5 @@
-import {A, start, checking, open, closed} from "./main.js"
-export const _width = 800, cols = 10, rows =  Math.floor(cols * 0.7), s = _width / cols,  _height = rows * s;
+import {A, start, checking, open, closed, path} from "./main.js"
+export const _width = 800, cols = 100, rows =  Math.floor(cols * 0.7), s = _width / cols,  _height = rows * s;
 console.log(s);
 
 let stack = [];
@@ -35,6 +35,7 @@ class Cell {
         if(open.indexOf(this) >= 0) p.fill('rgba(17, 96, 7, 0.94)');
         if(closed.indexOf(this) >= 0) p.fill('rgba(205, 26, 3, 0.94)');
         if(this === checking) p.fill('rgba(226, 239, 51, 0.97)');
+        if(path.indexOf(this) >= 0) p.fill('rgba(9, 170, 233, 0.97)');
         // if(this === next) fill('rgba(0, 100, 0, 0.25');
         p.noStroke();
         p.rect(this.x, this.y, s);
