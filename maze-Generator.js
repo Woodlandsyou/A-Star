@@ -1,12 +1,13 @@
-import A from "./main.js"
-const _width = 800;
-const cols = 20, s = _width / cols, rows =  Math.floor(cols * 0.7), _height = rows * s;
+import {A, start, checking} from "./main.js"
+export const _width = 800, cols = 10, rows =  Math.floor(cols * 0.7), s = _width / cols,  _height = rows * s;
+console.log(s);
+
 let stack = [];
 export let current = null, code = 1, grid;
 export function setup(p) {
     p.createCanvas(_width, _height);
     grid = createGrid(cols, rows);
-    current = grid[0][0];
+    current = grid[start.x][start.y];
 }
 
 export function draw(p) {
@@ -30,7 +31,8 @@ class Cell {
     display(p) {
         p.push();
         if(this.visited) p.fill('rgba(50, 153, 204, 0.5)');
-        if(this === current) p.fill('rgba(150, 0, 255, 0.5)');
+        if(this === current || this === checking) p.fill('rgba(150, 0, 255, 0.5)');
+        if(this === checking) p.fill('rgba(199, 10, 0, 0.5)');
         // if(this === next) fill('rgba(0, 100, 0, 0.25');
         p.noStroke();
         p.rect(this.x, this.y, s);
@@ -62,8 +64,8 @@ function chooseNeighbour() {
     current.visited = true;
     const next = getNeighbours(current)[Math.floor(Math.random() * getNeighbours(current).length)];
     if(!next) {
-        if(current === grid[0][0]){
-            alert('Finished😁');
+        if(current === grid[start.x][start.y]){
+            // alert('Finished😁');
             A();
             return 0;
         } else {
