@@ -1,7 +1,7 @@
 import * as maze from "./maze-Generator.js";
 export const start = {x: 0, y: 0};
-export let checking;
-let open = [], closed = [], finished = false, target, k = true;
+export let checking, open = [], closed = [];
+let finished = false, target, k = true;
 
 const game = p => {
     p.setup = () => {
@@ -13,7 +13,6 @@ const game = p => {
         if(finished && open.length != 0 && k === true) {
             p.frameRate(5);
             loop();
-            // k = false;
         }
     }
 
@@ -37,7 +36,7 @@ function loop() {
     closed.push(open.splice(open.indexOf(checking), 1)[0]);
     if(checking === target) {
         console.log(checking, target);
-        
+        k = false;
         setTimeout(() => alert("path found"), 200);
         return true;
     }
@@ -55,6 +54,7 @@ function loop() {
     
 
     neighbours.forEach(neighbour => {
+        if(closed.indexOf(neighbour) >= 0) return;
         if(open.indexOf(neighbour) === -1 || neighbour.g > checking.g + 1) {
             try {
                 setF(neighbour, checking);
@@ -64,8 +64,7 @@ function loop() {
             }
             if(open.indexOf(neighbour) === -1) open.push(neighbour);
         }
-    })
-
+    });
 }
 
 function setF(cell, prev, first = false) {
