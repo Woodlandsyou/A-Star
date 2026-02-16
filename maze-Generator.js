@@ -1,5 +1,5 @@
 import {A, start, checking, open, closed, path} from "./main.js"
-export const _width = 1500, cols = 100, rows =  Math.floor(cols * 0.7), s = _width / cols,  _height = rows * s;
+export const _width = 1500, cols = 10, rows =  Math.floor(cols * 0.7), s = _width / cols,  _height = rows * s;
 console.log(s);
 
 let stack = [];

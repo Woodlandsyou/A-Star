@@ -9,9 +9,9 @@ const game = p => {
     }
 
     p.draw = () => {
+        p.frameRate(maze.cols);
         maze.draw(p);
         if(finished && open.length != 0 && k === true && !win) {
-            // p.frameRate(5);
             loop();
         } else if(win) {
             getPath(target);
@@ -34,7 +34,7 @@ export function A() {
 }
 
 function loop() {
-    checking = open.reduce((prev, cur) => {if(cur.f < prev.f) return cur;else return prev});
+    checking = open.reduce((prev, cur) => {return cur.f < prev.f ? cur : prev});
     closed.push(open.splice(open.indexOf(checking), 1)[0]);
     if(checking === target) {
         win = true;
@@ -45,13 +45,12 @@ function loop() {
     const neighbours = (() => {
         let a = [];
         const i = Math.floor(checking.x / maze.s), j = Math.floor(checking.y / maze.s);
-        if(!checking.walls[0] && closed.indexOf(maze.grid[i][ - 1]) === -1) a.push(maze.grid[i][j - 1]);
+        if(!checking.walls[0] && closed.indexOf(maze.grid[i][j - 1]) === -1) a.push(maze.grid[i][j - 1]);
         if(!checking.walls[1] && closed.indexOf(maze.grid[i + 1][j]) === -1) a.push(maze.grid[i + 1][j]);
         if(!checking.walls[2] && closed.indexOf(maze.grid[i][j + 1]) === -1) a.push(maze.grid[i][j + 1]);
         if(!checking.walls[3] && closed.indexOf(maze.grid[i - 1][j]) === -1) a.push(maze.grid[i - 1][j]);
         return a;
     })();
-    window.controls = [checking, open, closed, maze.grid, neighbours];
     
 
     neighbours.forEach(neighbour => {
@@ -69,7 +68,7 @@ function loop() {
 }
 
 function setF(cell, prev, first = false) {
-    cell.previous = first ? null:prev;
+    cell.previous = first ? null : prev;
     cell.g = prev.g + 1;
     cell.h = (target.x - cell.x + target.y - cell.y) / maze.s;
     cell.f = cell.g + cell.h;
