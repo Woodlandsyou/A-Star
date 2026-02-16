@@ -1,5 +1,5 @@
 import {A, start, checking, open, closed, path} from "./main.js"
-export const _width = 800, cols = 100, rows =  Math.floor(cols * 0.7), s = _width / cols,  _height = rows * s;
+export const _width = 1500, cols = 100, rows =  Math.floor(cols * 0.7), s = _width / cols,  _height = rows * s;
 console.log(s);
 
 let stack = [];
@@ -8,6 +8,7 @@ export function setup(p) {
     p.createCanvas(_width, _height);
     grid = createGrid(cols, rows);
     current = grid[start.x][start.y];
+    p.frameRate(240);
 }
 
 export function draw(p) {

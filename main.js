@@ -37,7 +37,6 @@ function loop() {
     checking = open.reduce((prev, cur) => {if(cur.f < prev.f) return cur;else return prev});
     closed.push(open.splice(open.indexOf(checking), 1)[0]);
     if(checking === target) {
-        console.log(checking, target);
         win = true;
         setTimeout(() => alert("path found"), 200);
         return true;
