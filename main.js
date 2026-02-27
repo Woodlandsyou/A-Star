@@ -9,7 +9,6 @@ const game = p => {
     }
 
     p.draw = () => {
-        p.frameRate(maze.cols);
         maze.draw(p);
         if(finished && open.length != 0 && k === true && !win) {
             loop();
